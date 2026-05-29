@@ -51,7 +51,7 @@ Add your website screenshots here later.
 
 1. Download or clone the repository
 
-git clone https://github.com/your-username/your-repository-name.git
+https://github.com/Shaurya888-ai/ShauryaBabu.git
 
 2. Open the project folder
 
