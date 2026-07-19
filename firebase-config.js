@@ -5,12 +5,12 @@
 // See FIREBASE_SETUP.md for the full step-by-step guide.
 // ============================================================
 const firebaseConfig = {
-  apiKey: "PASTE_YOUR_API_KEY_HERE",
-  authDomain: "PASTE_YOUR_PROJECT_ID.firebaseapp.com",
-  projectId: "PASTE_YOUR_PROJECT_ID",
-  storageBucket: "PASTE_YOUR_PROJECT_ID.appspot.com",
-  messagingSenderId: "PASTE_YOUR_SENDER_ID",
-  appId: "PASTE_YOUR_APP_ID"
+  apiKey: "AIzaSyDlvD6tUQRZxMtqOHnldTyOU0Psb8ryw0w",
+  authDomain: "shauryababu-fe9d2.firebaseapp.com",
+  projectId: "shauryababu-fe9d2",
+  storageBucket: "shauryababu-fe9d2.firebasestorage.app",
+  messagingSenderId: "847245587997",
+  appId: "1:847245587997:web:ff4bbc80ef35c46f3678f4"
 };
 
 firebase.initializeApp(firebaseConfig);
