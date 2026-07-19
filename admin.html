@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Admin | Shaurya Babu</title>
+<meta name="robots" content="noindex, nofollow" />
+<link rel="stylesheet" href="style.css" />
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet" />
+<style>
+  body { background: var(--clr-bg); min-height: 100vh; }
+  .admin-wrap { max-width: 960px; margin: 0 auto; padding: 3rem 1.5rem 5rem; }
+  .admin-header { display:flex; align-items:center; justify-content:space-between; margin-bottom: 2rem; flex-wrap:wrap; gap:1rem; }
+  .admin-header h1 { font-family: var(--font-display); color: var(--clr-green); font-size: 1.4rem; letter-spacing: 1px; }
+  .admin-tag { font-family: var(--font-mono); color: var(--clr-muted); font-size: 0.8rem; }
+
+  #loginBox { max-width: 380px; margin: 8rem auto 0; padding: 2rem; }
+  #loginBox h2 { font-family: var(--font-display); color: var(--clr-green); margin-bottom: 1.2rem; font-size: 1.2rem; text-align:center; }
+  .field { margin-bottom: 1rem; }
+  .field label { display:block; font-family: var(--font-mono); font-size: 0.75rem; color: var(--clr-muted); margin-bottom: 0.4rem; }
+  .field input, .field textarea {
+    width: 100%; background: var(--clr-surface); border: 1px solid var(--clr-border);
+    color: var(--clr-text); padding: 0.7rem 0.8rem; border-radius: 6px; font-family: var(--font-body);
+    font-size: 0.9rem; outline: none; transition: var(--transition);
+  }
+  .field input:focus, .field textarea:focus { border-color: var(--clr-green); box-shadow: var(--shadow-glow-sm); }
+  .btn-admin {
+    background: var(--clr-green); color: #041b10; border: none; padding: 0.7rem 1.2rem;
+    border-radius: 6px; font-family: var(--font-mono); font-weight: 700; cursor: pointer;
+    transition: var(--transition); font-size: 0.85rem;
+  }
+  .btn-admin:hover { box-shadow: var(--shadow-glow); }
+  .btn-admin.danger { background: var(--clr-red); color: #fff; }
+  .btn-admin.outline { background: transparent; border: 1px solid var(--clr-border2); color: var(--clr-text); }
+  .btn-admin:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  #authError { color: var(--clr-red); font-family: var(--font-mono); font-size: 0.8rem; margin-top: 0.8rem; min-height: 1em; }
+
+  #dashboard { display:none; }
+  .tabs { display:flex; gap:0.6rem; margin-bottom: 1.5rem; }
+  .tab-btn {
+    background: var(--clr-surface); border: 1px solid var(--clr-border); color: var(--clr-muted);
+    padding: 0.6rem 1.1rem; border-radius: 6px; font-family: var(--font-mono); font-size: 0.8rem;
+    cursor: pointer; transition: var(--transition);
+  }
+  .tab-btn.active { color: var(--clr-green); border-color: var(--clr-green); box-shadow: var(--shadow-glow-sm); }
+  .tab-panel { display:none; }
+  .tab-panel.active { display:block; }
+
+  .panel-section { padding: 1.4rem; margin-bottom: 1.5rem; }
+  .panel-section h3 { font-family: var(--font-display); color: var(--clr-cyan); font-size: 1rem; margin-bottom: 1rem; }
+
+  .item-row {
+    display:flex; align-items:center; justify-content:space-between; gap:1rem;
+    padding: 0.8rem 1rem; border: 1px solid var(--clr-border); border-radius: 8px; margin-bottom: 0.6rem;
+    background: var(--clr-surface);
+  }
+  .item-row .item-info { font-family: var(--font-mono); font-size: 0.82rem; color: var(--clr-text); }
+  .item-row .item-info .item-sub { color: var(--clr-muted); font-size: 0.72rem; margin-top: 0.2rem; word-break: break-all; }
+  .item-row .item-actions { display:flex; gap:0.5rem; flex-shrink:0; }
+  .item-row .item-actions button { padding: 0.4rem 0.7rem; font-size: 0.72rem; }
+
+  .form-grid { display:grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .form-grid .full { grid-column: 1 / -1; }
+  @media (max-width: 640px) { .form-grid { grid-template-columns: 1fr; } }
+
+  .msg { font-family: var(--font-mono); font-size: 0.78rem; margin-top:0.6rem; min-height:1em; }
+  .msg.ok { color: var(--clr-green); }
+  .msg.err { color: var(--clr-red); }
+</style>
+</head>
+<body>
+
+<canvas id="matrixCanvas"></canvas>
+
+<div class="admin-wrap">
+
+  <!-- LOGIN -->
+  <div id="loginBox" class="glass">
+    <h2>&gt; admin_login.sh</h2>
+    <div class="field">
+      <label for="loginEmail">Email</label>
+      <input type="email" id="loginEmail" placeholder="admin@email.com" autocomplete="off" />
+    </div>
+    <div class="field">
+      <label for="loginPassword">Password</label>
+      <input type="password" id="loginPassword" placeholder="••••••••" autocomplete="off" />
+    </div>
+    <button class="btn-admin" id="loginBtn" style="width:100%;">Login</button>
+    <p id="authError"></p>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div id="dashboard">
+    <div class="admin-header">
+      <div>
+        <h1>[SB] Admin Panel</h1>
+        <p class="admin-tag">// logged in as <span id="whoami"></span></p>
+      </div>
+      <button class="btn-admin outline" id="logoutBtn">Logout</button>
+    </div>
+
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="contactsTab">Contacts</button>
+      <button class="tab-btn" data-tab="projectsTab">Projects</button>
+    </div>
+
+    <!-- CONTACTS TAB -->
+    <div class="tab-panel active" id="contactsTab">
+      <div class="panel-section glass">
+        <h3>Existing Contacts</h3>
+        <div id="contactsList"><p class="admin-tag">Loading...</p></div>
+      </div>
+
+      <div class="panel-section glass">
+        <h3 id="contactFormTitle">Add New Contact</h3>
+        <input type="hidden" id="contactEditId" />
+        <div class="form-grid">
+          <div class="field">
+            <label>Icon (emoji)</label>
+            <input type="text" id="contactIcon" placeholder="💬" />
+          </div>
+          <div class="field">
+            <label>Order (number, lower = shows first)</label>
+            <input type="number" id="contactOrder" placeholder="1" />
+          </div>
+          <div class="field">
+            <label>Label</label>
+            <input type="text" id="contactLabel" placeholder="WhatsApp" />
+          </div>
+          <div class="field">
+            <label>Display Text</label>
+            <input type="text" id="contactValue" placeholder="Chat On WhatsApp" />
+          </div>
+          <div class="field full">
+            <label>URL</label>
+            <input type="text" id="contactUrl" placeholder="https://wa.me/91XXXXXXXXXX?text=Hi%20Shaurya" />
+          </div>
+        </div>
+        <button class="btn-admin" id="contactSaveBtn">Add Contact</button>
+        <button class="btn-admin outline" id="contactCancelBtn" style="display:none;">Cancel Edit</button>
+        <p class="msg" id="contactMsg"></p>
+      </div>
+    </div>
+
+    <!-- PROJECTS TAB -->
+    <div class="tab-panel" id="projectsTab">
+      <div class="panel-section glass">
+        <h3>Existing Projects</h3>
+        <div id="projectsList"><p class="admin-tag">Loading...</p></div>
+      </div>
+
+      <div class="panel-section glass">
+        <h3 id="projectFormTitle">Add New Project</h3>
+        <input type="hidden" id="projectEditId" />
+        <div class="form-grid">
+          <div class="field">
+            <label>Icon (emoji)</label>
+            <input type="text" id="projectIcon" placeholder="⚡" />
+          </div>
+          <div class="field">
+            <label>Title</label>
+            <input type="text" id="projectTitle" placeholder="Project Alpha" />
+          </div>
+          <div class="field full">
+            <label>Description</label>
+            <textarea id="projectDescription" rows="3" placeholder="// Short description of the project"></textarea>
+          </div>
+          <div class="field full">
+            <label>Tech Stack (comma-separated)</label>
+            <input type="text" id="projectStack" placeholder="React, Node.js, MongoDB" />
+          </div>
+          <div class="field">
+            <label>Live Demo URL (optional)</label>
+            <input type="text" id="projectLiveUrl" placeholder="https://..." />
+          </div>
+          <div class="field">
+            <label>GitHub URL (optional)</label>
+            <input type="text" id="projectGithubUrl" placeholder="https://github.com/..." />
+          </div>
+        </div>
+        <button class="btn-admin" id="projectSaveBtn">Add Project</button>
+        <button class="btn-admin outline" id="projectCancelBtn" style="display:none;">Cancel Edit</button>
+        <p class="msg" id="projectMsg"></p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
+<script src="firebase-config.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>

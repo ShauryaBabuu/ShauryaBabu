@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact | Shaurya Babu</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+  <canvas id="matrixCanvas"></canvas>
+
+  <!-- NAVBAR -->
+  <nav id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <span class="logo-bracket">[</span>SB<span class="logo-bracket">]</span>
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html#about"    class="nav-link">About</a></li>
+        <li><a href="index.html#skills"   class="nav-link">Skills</a></li>
+        <li><a href="index.html#projects" class="nav-link">Projects</a></li>
+        <li><a href="contact.html"        class="nav-link">Contact</a></li>
+        <li><a href="contact.html"        class="nav-btn">Hire Me</a></li>
+      </ul>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- PAGE CONTENT -->
+  <main class="inner-page">
+    <div class="container">
+      <div class="inner-hero reveal">
+        <p class="section-tag">&#47;&#47; 04 — Contact</p>
+        <h1>Get In <span class="glow-text">Touch</span></h1>
+      </div>
+
+      <div class="contact-page-grid">
+        <!-- Info Side -->
+        <div class="reveal">
+          <p class="contact-intro">Whether you have a project, a question, or just want to say hello — my terminal is always open.</p>
+          <div class="contact-items" style="margin-top:2rem;">
+            <div class="contact-item glass">
+              <span class="c-icon">📧</span>
+              <div>
+                <span class="c-label">Email</span>
+                <a href="mailto:babushaurya888@gmail.com" class="c-val">babushaurya888@gmail.com</a>
+              </div>
+            </div>
+            <div id="contactItemsPage"><p style="font-family:var(--font-mono);color:var(--clr-muted);font-size:0.78rem;">Loading...</p></div>
+          </div>
+
+          <!-- Availability Card -->
+          <div class="glass" style="padding:1.2rem 1.4rem;margin-top:1.5rem;">
+            <div class="about-badge" style="margin-bottom:0.6rem;"><span class="status-dot"></span> Currently Available</div>
+            <p style="font-family:var(--font-mono);font-size:0.78rem;color:var(--clr-muted);margin-top:0.6rem;">
+              // Open to freelance projects, collaborations, and full-time roles. Response time: &lt; 24h.
+            </p>
+          </div>
+        </div>
+
+        <!-- Form Side -->
+        <div class="glass contact-form-box reveal">
+          <p class="form-tag">&gt; send_message.exe</p>
+          <div class="form-group">
+            <label for="cname">Name</label>
+            <input type="text" id="cname" placeholder="// Your full name" autocomplete="off" />
+          </div>
+          <div class="form-group">
+            <label for="cemail">Email</label>
+            <input type="email" id="cemail" placeholder="// My@gmail.com" autocomplete="off" />
+          </div>
+          <div class="form-group">
+            <label for="csubject">Subject</label>
+            <input type="text" id="csubject" placeholder="// Project Inquiry / Collaboration..." autocomplete="off" />
+          </div>
+          <div class="form-group">
+            <label for="cmessage">Message</label>
+            <textarea id="cmessage" rows="5" placeholder="// Tell me about your project or idea..."></textarea>
+          </div>
+          <button class="btn-primary full-width" id="cSendBtn">
+            <span>Transmit Message</span>
+            <span class="btn-arrow">→</span>
+          </button>
+          <p class="form-note" id="cFormNote"></p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer id="footer">
+    <div class="footer-container">
+      <div class="footer-top">
+        <a href="index.html" class="footer-logo">
+          <span class="logo-bracket">[</span>SB<span class="logo-bracket">]</span>
+        </a>
+        <p class="footer-tagline">// Building the future, one commit at a time.</p>
+        <div class="footer-socials">
+          <a href="https://github.com/ShauryaBabuu"   target="_blank" aria-label="GitHub">GH</a>
+          <a href="https://wa.me/917050964495?text=Hi%20Shaurya" target="_blank" aria-label="WhatsApp">WA</a>
+          <a href="https://twitter.com/shauryababuu"  target="_blank" aria-label="Twitter">TW</a>
+        </div>
+      </div>
+      <div class="footer-links">
+        <a href="index.html#about">About</a>
+        <a href="index.html#skills">Skills</a>
+        <a href="index.html#projects">Projects</a>
+        <a href="contact.html">Contact</a>
+        <a href="privacy-policy.html">Privacy</a>
+        <a href="disclaimer.html">Disclaimer</a>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; <span id="footerYear"></span> Shaurya Babu. All rights reserved.</p>
+        <p class="footer-credit">Designed &amp; Developed by <span class="glow-text">Shaurya Babu</span></p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    // Contact page specific form logic
+    document.addEventListener("DOMContentLoaded", () => {
+      const btn  = document.getElementById("cSendBtn");
+      const note = document.getElementById("cFormNote");
+      if (!btn) return;
+
+      btn.addEventListener("click", () => {
+        const name    = document.getElementById("cname")?.value.trim()    || "";
+        const email   = document.getElementById("cemail")?.value.trim()   || "";
+        const subject = document.getElementById("csubject")?.value.trim() || "";
+        const message = document.getElementById("cmessage")?.value.trim() || "";
+
+        if (!name || !email || !message) {
+          note.style.color = "var(--clr-red)";
+          note.textContent = "> Error: Name, email and message are required.";
+          return;
+        }
+        const emailRx = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRx.test(email)) {
+          note.style.color = "var(--clr-red)";
+          note.textContent = "> Error: Invalid email format.";
+          return;
+        }
+        btn.disabled = true;
+        btn.querySelector("span").textContent = "Transmitting...";
+        setTimeout(() => {
+          note.style.color = "var(--clr-green)";
+          note.textContent = "> Message transmitted successfully ✓ I'll reply within 24h.";
+          btn.querySelector("span").textContent = "Transmit Message";
+          btn.disabled = false;
+          document.getElementById("cname").value    = "";
+          document.getElementById("cemail").value   = "";
+          document.getElementById("csubject").value = "";
+          document.getElementById("cmessage").value = "";
+        }, 1500);
+      });
+
+      // Footer year
+      const yr = document.getElementById("footerYear");
+      if (yr) yr.textContent = new Date().getFullYear();
+    });
+  </script>
+
+  <!-- Firebase (contacts loaded dynamically) -->
+  <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
+  <script src="firebase-config.js"></script>
+  <script src="site-data.js"></script>
+  <script>
+    renderContacts("contactItemsPage");
+  </script>
+</body>
+</html>
